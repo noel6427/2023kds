@@ -1,0 +1,4 @@
+<launch>
+<node pkg="xenoxeno" type="xenoxeno_node" name="xenoxeno_node"output="screen">
+ </node>
+</launch>
