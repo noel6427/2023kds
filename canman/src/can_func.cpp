@@ -224,14 +224,23 @@ void CAN::Position_GoV3(int RMD_id, double t , int a /*,int32_t Pos_Deg*/)
   if(t >= 1 /*|| abs(a-Enco_Data_01)<=2*/){
     return;
   }
-  int32_t Pos_Deg = Enco_Data_01 + (a - Enco_Data_01)*0.5*(1.0-cos(PI*(t)));
+  int32_t Pos_Deg =0;
+
+  int start = 0;
+  start =Enco_Data_01;
+  if (start != Enco_Data_01){
+    Pos_Deg = start + (a - start)*0.5*(1.0-cos(PI*(t)));
+  }
+  else{
+   Pos_Deg = Enco_Data_01 + (a - Enco_Data_01)*0.5*(1.0-cos(PI*(t)));
+  }
   int32_t angleControl = Pos_Deg * DEG2LSP;
   // 0.01degree/LSB ex)36000=360° 1:9 *9
 
   struct can_frame rx_frame2;
   set_can_frame(rx_frame2, RMD_id, 8, false); //rmd == standard CAN mode FLAG
 
-  uint16_t maxSpeed = 100; //1350; rpm value
+  uint16_t maxSpeed = 200; //1350; rpm value
 
   BYTE can_arr2[8]={0, };
   can_arr2[0] = POSITION_CLOSED_LOOP_CMMD; //0xA4
@@ -245,9 +254,6 @@ void CAN::Position_GoV3(int RMD_id, double t , int a /*,int32_t Pos_Deg*/)
 
   CAN_write(rx_frame2, can_arr2);
 }
-
-
-
 
 void CAN::Read_RMD_Data() { //double    버퍼값을 ??
   struct can_frame recv_frame;
