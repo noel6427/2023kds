@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 
   while (ros::ok())
   {
-      _can.Position_GoV3(0x141,t/T,a); // Runnig
+      _can.Position_GoV3(0x143,t/T,a); // Runnig
       _can.Read_RMD_Data();  // encoder /present pos
 
      t =t+dt;
@@ -54,5 +54,3 @@ int main(int argc, char **argv)
 
   return 0;
 }
-
-
